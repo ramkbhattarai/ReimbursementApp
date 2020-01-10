@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .navbar{
+        display: flex;
+        position: relative;
+        
+    }
+    button{
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 10px;
+        background-color: white;
+    }
+    img{
+       width:700px; 
+       height: 700px;
+    }
+    h3{
+        color:red;
+    }
+    .container{
+       display: flex;
+    }
+    </style>
+    <script>
+   function handleClick(){
+       
+        window.location= "http://localhost:8080/rembursmentApp/index.html";
+    }
+   function handleAbout(){
+	  
+	   window.location = "https://www.google.com";
+   }
+   function handleFeatures(){
+	   
+	   window.location = "https://www.facebook.com";
+   }
+ function handleLogin(){
+	   
+	   window.location = "http://localhost:8080/rembursmentApp/login.html";
+   }
+ function handleSignup(){
+	   
+	   window.location = "http://localhost:8080/rembursmentApp/register.html";
+ }
+    </script>
+</head>
+<body>
+    <nav class="navbar">
+        <button onclick="handleClick(event.preventDefault())">Home</button>
+        <button onclick="handleAbout(event.preventDefault())">About Us</button>
+        <button onclick="handleFeatures(event.preventDefault())">Features</button>
+        <button onclick="handleLogin(event.preventDefault())">Login</button>
+        <button onclick="handleSignup(event.preventDefault())">Sign Up</button>
+    </nav>
+    <h3>Welcome to Employee Reimbursement</h3>
+    <div class="container">
+        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80" alt="">
+        <img src="https://s27363.pcdn.co/wp-content/uploads/2016/07/Everest-Base-Camp-Trek.jpg.optimal.jpg" alt="Image of Everest Base camp">
+    </div>
+</body>
+</html>

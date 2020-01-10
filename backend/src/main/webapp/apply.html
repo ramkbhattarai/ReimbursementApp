@@ -1,0 +1,197 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Apply</title>
+    <script>
+    
+    function init(){
+  	   
+        document.getElementById('input').addEventListener('change', handleFileSelect, false);
+     	 }
+        
+    let reader = null;
+
+         	function handleFileSelect(event){
+         	  reader = new FileReader()
+         	  reader.onload = handleFileLoad;
+         	  reader.readAsText(event.target.files[0])
+         	}
+         	
+         	function handleFileLoad(event){
+         		  reader = event.target.result;
+         		}
+     function handleSubmit() {
+            let applyForm = document.applyForm;
+            let amount = applyForm.amount.value;
+            let description = applyForm.description.value;
+            let type = applyForm.type.value;
+         
+           
+            
+           
+           
+			let receipt = reader;
+            
+            let type_id;
+            switch(type){
+                case "Housing": 
+                type_id = 1;
+                break;
+                case "Travel":
+                    type_id = 2;
+                    break;
+                case "Food":
+                    type_id = 3;
+                    break;
+                case "Medicine":
+                    type_id = 5;
+                    break;
+                case "Study":
+                    type_id = 4;
+                    break;
+                case "Others":
+                    type_id = 6;
+                    break;
+                default: 
+                break;
+
+            }
+            let applyTemplate = {
+                amount: amount,
+                description: description,
+                receipt: receipt,
+               	status_id: 2,
+                type_id: type_id,
+                author_id: JSON.parse(sessionStorage.getItem("currentUser")).id,
+            };
+
+            let xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                	//sessionStorage.setItem('currentUser', JSON.parse(sessionStorage.getItem("currentUser")));
+                     sessionStorage.setItem('currentApplyReim', this.responseText);
+                    //console.log("inside  on ready state change")
+                    window.location = "http://localhost:8080/rembursmentApp/welcome.html";
+                }
+
+            };
+
+            xhr.open("POST", "http://localhost:8080/rembursmentApp/apply");
+
+            xhr.send(JSON.stringify(applyTemplate));
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <form onsubmit="handleSubmit(event.preventDefault())"  name="applyForm" enctype="multipart/form-data" onload="init()">
+            <div>
+                Amount
+                <input type="number" name="amount" placeholder="Amount..." required>
+            </div>
+            <div>
+               Description
+                <textarea name="description" placeholder="Description..." required></textarea>
+    
+            </div>
+            <div>
+                Receipt
+                <input type="file" id="input" name="receipt" placeholder="Upload..." required>
+            </div>
+            
+            <div>
+                Type
+                <select name="type">
+                    <option value="">Please Select the item below....</option>
+                    <option value="Housing">Housing</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Food">Food</option>
+                    <option value="Medicine">Medicine</option>
+                    <option value="Study">Study</option>
+                    <option value="Others">Others</option>
+                </select>
+            </div>
+            
+            <button>Submit</button>
+        </form>
+        
+    </div>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Apply</title>
+    <script>
+
+    function handleSubmmit(){
+    	
+    let xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+        	console.log("I am inside ajax")
+        	//sessionStorage.setItem('currentUser', JSON.parse(sessionStorage.getItem("currentUser")));
+             sessionStorage.setItem('currentApplyReim', this.responseText);
+            //console.log("inside  on ready state change")
+            window.location = "http://localhost:8080/rembursmentApp/welcome.html";
+        }
+
+    };
+
+    xhr.open("POST", "http://localhost:8080/rembursmentApp/apply");
+
+    xhr.send();
+    }
+
+</script>
+    
+    
+   
+</head>
+<body>
+    <div class="container">
+        <form onsubmit="handleSubmit(event.preventDefault())"  enctype="multipart/form-data">
+            <div>
+                Amount
+                <input type="number" name="amount" placeholder="Amount..." required>
+            </div>
+            <div>
+               Description
+                <textarea name="description" placeholder="Description..." required></textarea>
+    
+            </div>
+            <div>
+                Receipt
+                <input type="file" id="input" name="receipt" placeholder="Upload..." required>
+            </div>
+            
+            <div>
+                Type
+                <select name="type">
+                    <option value="">Please Select the item below....</option>
+                    <option value="Housing">Housing</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Food">Food</option>
+                    <option value="Medicine">Medicine</option>
+                    <option value="Study">Study</option>
+                    <option value="Others">Others</option>
+                </select>
+            </div>
+            
+            <button>Submit</button>
+        </form>
+        
+    </div>
+</body>
+</html>

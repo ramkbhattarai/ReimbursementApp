@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
+  <script>
+  	function logout() {
+  		let xhr = new XMLHttpRequest();
+
+  		xhr.open("POST", "http://localhost:8080/rembursmentApp/logout");
+  		xhr.send();
+  		
+  		sessionStorage.removeItem('currentUser');
+		window.location = "http://localhost:8080/rembursmentApp/";
+  	}
+  	
+  	 function handleApply(){
+  		let view = document.getElementById('apply');
+   	 let userString = sessionStorage.getItem('currentUser');
+   	 let currentUser = JSON.parse(userString);
+   	 if(currentUser.role_id == 2){
+   		 apply.innerHTML = "Hi " + currentUser.fname + " "
+				+ currentUser.lname + ". You can not apply. You can process the applicaiton. Please view their applications";
+   	 }else{
+   		 
+   		let xhr = new XMLHttpRequest();
+
+    	xhr.onreadystatechange = function() {
+    		if(this.readyState === 4 && this.status === 200) {
+    			sessionStorage.setItem('currentUser', this.responseText);
+        		 window.location = "http://localhost:8080/rembursmentApp/apply.html";
+    		}
+    	};
+
+    	xhr.open("POST", "http://localhost:8080/rembursmentApp/welcome");
+
+    	xhr.send(JSON.stringify(currentUser));
+   		 
+   	 }
+  		
+     }
+     function handleView() {
+    	
+    	 let userString = sessionStorage.getItem('currentUser');
+    	 let currentUser = JSON.parse(userString);
+    	 let xhr = new XMLHttpRequest();
+
+     	xhr.onreadystatechange = function() {
+     		if(this.readyState === 4 && this.status === 200) {
+     			sessionStorage.setItem('currentUser', this.responseText);
+     			
+     			window.location = "http://localhost:8080/rembursmentApp/view.html";
+     		}
+     	};
+
+     		xhr.open("POST", "http://localhost:8080/rembursmentApp/welcome");
+
+     		xhr.send(JSON.stringify(currentUser));
+    
+         }
+  </script>
+  <title>Homepage</title>
+</head>
+<body>
+  <div >
+    <h3 id="welcome">You are now logged in!</h3>
+    <button  onclick="logout()">LOGOUT</a>
+    <script>
+		let welcome = document.getElementById('welcome');
+		let userString = sessionStorage.getItem('currentUser');
+		if(userString === null) {
+			window.location = "http://localhost:8080/rembursmentApp/";
+		} else {
+			let currentUser = JSON.parse(userString);
+			console.log(currentUser);
+			if(currentUser != null) {
+				welcome.innerHTML = "Welcome " + currentUser.fname + " "
+					+ currentUser.lname;
+			}
+		}
+    </script>
+    <div class="show">
+                <button onclick="handleView(event.preventDefault())">View</button>
+                <div id="view"></div>
+                <button onclick="handleApply(event.preventDefault())">Apply</button>
+                <div id="apply"></div>
+            </div>
+            <div id="view"></div>
+    
+  </div>
+</body>
+</html>

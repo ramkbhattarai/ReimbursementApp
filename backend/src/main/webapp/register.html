@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test</title>
+    <style>
+    .container{
+        display: flex;
+    }
+    
+    </style>
+    <script>
+    function handleSubmit(){
+        let loginForm = document.loginForm;
+        let username = loginForm.username.value;
+        let password = loginForm.password.value;
+        let fname = loginForm.fname.value;
+        let lname = loginForm.lname.value;
+        let email = loginForm.email.value;
+        let position = loginForm.position.value;
+       // console.log(position);
+        let roleId;
+        let string = "employee";
+        let check = position.localeCompare(string);
+        //console.log(check);
+        if(check === 0){
+            roleId = 1;
+        }else{
+            roleId = 2;
+        }
+        let registerTemplate = {
+    			username: username,
+    			password: password,
+    			fname: fname,
+    			lname: lname,
+    			email: email,
+    			role_id: roleId,
+    	};
+
+    	let xhr = new XMLHttpRequest();
+
+      xhr.onreadystatechange = function() {
+    		if(this.readyState === 4 && this.status === 200) {
+    			sessionStorage.setItem('currentUser', this.responseText);
+    			window.location = "http://localhost:8080/rembursmentApp/login.html";
+    		}
+    		
+    		if(this.readyState === 4 && this.status === 204) {
+    			alert("Failed to login! Username or password is incorrect.");
+    		}
+    	}; 
+
+    	xhr.open("POST", "http://localhost:8080/rembursmentApp/register");
+
+    	xhr.send(JSON.stringify(registerTemplate));
+    }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <form onsubmit="handleSubmit(event.preventDefault())" name="loginForm">
+            <div >
+                First Name
+                <input type="text" name="fname" placeholder="first name..." required>
+            </div>
+            <div>
+                Last Name
+                <input type="text" name="lname" placeholder="last name..." required>
+
+            </div>
+            <div >
+                Username
+                <input type="text" name="username" placeholder="username..." required>
+            </div>
+            <div >
+                Email
+                <input type="email" name="email" placeholder="email..." required>
+            </div>
+            <div >
+                Password
+                <input type="password" name="password" placeholder="password..." required>
+            </div>
+            <div>
+                Your Position
+                <input type="text" name="position" placeholder="employee or manager..." required>
+            </div>
+            <button>Submit</button>
+        </form>
+    </div>
+</body>
+</html>
